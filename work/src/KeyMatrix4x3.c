@@ -53,6 +53,10 @@ int scanKeys(KeyMatrix* KM){
 	
 	int i,r,c = 0;
 	KM->keyPressed=0;										//Zurücksetzten vor dem erneuten scannen
+	KM->keyPresseddebounce[2]=0;
+	KM->keyPresseddebounce[1]=0;
+	KM->keyPresseddebounce[0]=0;
+	
 	for(r=0;r<KM->rows;r++){
 		
 		digitalWrite(KM->rowPin[r],1);
@@ -64,7 +68,7 @@ int scanKeys(KeyMatrix* KM){
 			//		KM->keyPressed=1;
 			//		KM->lastPressed=KM->keyMapping[r][c];}
 				
-				KM->keyPresseddebounce[1]=KM->keyPresseddebounce[1];
+				
 				KM->keyPresseddebounce[2]=KM->keyPresseddebounce[1];
 				KM->keyPresseddebounce[1]=KM->keyPresseddebounce[0];
 				KM->keyPresseddebounce[0]=1;
