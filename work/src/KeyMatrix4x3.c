@@ -40,12 +40,18 @@ int init(KeyMatrix* KM){
 	KM->columnPin[1] = 1;
 	KM->columnPin[2] = 2;
 	
+	KM->keyPresseddebounce[2]=0;
+	KM->keyPresseddebounce[1]=0;
+	KM->keyPresseddebounce[0]=0;
+	
+	
 	for(r=0;r<KM->rows;r++){
 		pinMode(KM->rowPin[r], OUTPUT);
 	}
 
 	for(c=0;c<KM->columns;c++){
-		pinMode(KM->columnPin[c], INPUT);		
+		pinMode(KM->columnPin[c], INPUT);
+		pullUpDnControl(KM->columnPin[c], PUD_DOWN); 		
 	}
 }
 
@@ -53,10 +59,7 @@ int scanKeys(KeyMatrix* KM){
 	
 	int i,r,c = 0;
 	KM->keyPressed=0;										//Zurücksetzten vor dem erneuten scannen
-	KM->keyPresseddebounce[2]=0;
-	KM->keyPresseddebounce[1]=0;
-	KM->keyPresseddebounce[0]=0;
-	
+
 	for(r=0;r<KM->rows;r++){
 		
 		digitalWrite(KM->rowPin[r],1);
@@ -64,19 +67,19 @@ int scanKeys(KeyMatrix* KM){
 		for(c=0;c<KM->columns;c++){
 		
 			if(digitalRead(KM->columnPin[c]) == 1){
-			//	if(	KM->keyState[r][c] == 0){				//Wird nur beim Pressen einer Taste gesetzt
-			//		KM->keyPressed=1;
-			//		KM->lastPressed=KM->keyMapping[r][c];}
+				if(	KM->keyState[r][c] == 0){				//Wird nur beim Pressen einer Taste gesetzt
+					KM->keyPressed=1;
+					KM->lastPressed=KM->keyMapping[r][c];}
 				
 				
 				KM->keyPresseddebounce[2]=KM->keyPresseddebounce[1];
 				KM->keyPresseddebounce[1]=KM->keyPresseddebounce[0];
 				KM->keyPresseddebounce[0]=1;
 				
-				if(KM->keyPresseddebounce[0] == 1 && KM->keyPresseddebounce[1] == 1 && KM->keyPresseddebounce[2] == 1 && KM->keyPressed==0){
-					KM->keyState[r][c]=1;
-					KM->lastPressed=KM->keyMapping[r][c];
-					KM->keyPressed=1;}
+			//	if(KM->keyPresseddebounce[0] == 1 && KM->keyPresseddebounce[1] == 1 && KM->keyPresseddebounce[2] == 1 && KM->keyPressed==0){
+			//		KM->keyState[r][c]=1;
+			//		KM->lastPressed=KM->keyMapping[r][c];
+			//		KM->keyPressed=1;}
 				
 			}else
 				KM->keyState[r][c]=0;
