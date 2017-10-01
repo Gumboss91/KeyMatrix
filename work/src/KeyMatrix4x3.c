@@ -69,7 +69,7 @@ int scanKeys(KeyMatrix* KM){
 				KM->keyPresseddebounce[1]=KM->keyPresseddebounce[0];
 				KM->keyPresseddebounce[0]=1;
 				
-				if(KM->keyPresseddebounce[0] == 1 && KM->keyPresseddebounce[1] == 1 && KM->keyPresseddebounce[2] == 1 && KM->keyPressed=0){
+				if(KM->keyPresseddebounce[0] == 1 && KM->keyPresseddebounce[1] == 1 && KM->keyPresseddebounce[2] == 1 && KM->keyPressed==0){
 					KM->keyState[r][c]=1;
 					KM->lastPressed=KM->keyMapping[r][c];
 					KM->keyPressed=1;}
