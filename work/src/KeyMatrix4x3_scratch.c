@@ -52,6 +52,14 @@ int init(KeyMatrix* KM){
 	KM->columnPin[0] = 0;
 	KM->columnPin[1] = 1;
 	KM->columnPin[2] = 2;
+	
+	for(r=0;r<KeyMatrix4x3.rows;r++){
+		pinMode(KeyMatrix4x3.rowPin[r], OUTPUT);
+	}
+
+	for(c=0;c<KeyMatrix4x3.columns;c++){
+		pinMode(KeyMatrix4x3.columnPin[c], INPUT);		
+	}
 }
 
 
@@ -69,13 +77,7 @@ int main(int argc, char *argv[]){
 
 	init(&KeyMatrix4x3);
 	
- 	for(r=0;r<KeyMatrix4x3.rows;r++){
-		pinMode(KeyMatrix4x3.rowPin[r], OUTPUT);
-	}
-
-	for(c=0;c<KeyMatrix4x3.columns;c++){
-		pinMode(KeyMatrix4x3.columnPin[c], INPUT);		
-	}
+ 	
 
 
 	for(r=0;r<KeyMatrix4x3.rows;r++){

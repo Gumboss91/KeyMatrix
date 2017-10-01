@@ -58,16 +58,26 @@ int scanKeys(KeyMatrix* KM){
 		digitalWrite(KM->rowPin[r],1);
 
 		for(c=0;c<KM->columns;c++){
-										
+		
 			if(digitalRead(KM->columnPin[c]) == 1){
-				if(	KM->keyState[r][c] == 0){				//Wird nur beim Pressen einer Taste gesetzt
-					KM->keyPressed=1;
-					KM->lastPressed=KM->keyMapping[r][c];}
-				KM->keyState[r][c]=1;
+			//	if(	KM->keyState[r][c] == 0){				//Wird nur beim Pressen einer Taste gesetzt
+			//		KM->keyPressed=1;
+			//		KM->lastPressed=KM->keyMapping[r][c];}
+				
+				KM->keyPresseddebounce[1]=KM->keyPresseddebounce[1];
+				KM->keyPresseddebounce[2]=KM->keyPresseddebounce[1];
+				KM->keyPresseddebounce[1]=KM->keyPresseddebounce[0];
+				KM->keyPresseddebounce[0]=1;
+				
+				if(KM->keyPresseddebounce[0] == 1 && KM->keyPresseddebounce[1] == 1 && KM->keyPresseddebounce[2] == 1 && KM->keyPressed=0){
+					KM->keyState[r][c]=1;
+					KM->lastPressed=KM->keyMapping[r][c];
+					KM->keyPressed=1;}
+				
 			}else
 				KM->keyState[r][c]=0;
 		}
-		 digitalWrite(KM->rowPin[r],0);
+		digitalWrite(KM->rowPin[r],0);
 	}
 	
 }
@@ -80,7 +90,6 @@ int waitForRelease(KeyMatrix* KM){
 			return 0;
 		usleep(100);
 	}
-	
 }
 
 int main(int argc, char *argv[]){
@@ -93,7 +102,7 @@ int main(int argc, char *argv[]){
 		printf("ERROR PiSetup()\n");
 	else 
 		printf("PiSetup succsess\n");
-
+	
 	init(&KeyMatrix4x3);
 	
 	for(i=0;i<5;i++){

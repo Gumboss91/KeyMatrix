@@ -12,6 +12,7 @@ typedef struct {
 	int keyState[ROWS][COLUMNS];
 	int keyMapping[ROWS][COLUMNS];
 	int rowPin[ROWS], columnPin[COLUMNS];
+	int keyPresseddebounce[4];	
 	int keyPressed;		// Zeigt an, ob seid dem letzten aufruf von scanKeys() eine Taste gedrückt wurde.
 	int lastPressed;	// Zeigt an, welche Taste waehrend dem letzten aufruf von scanKeys() gedrueckt war.
 
